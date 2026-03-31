@@ -17,7 +17,7 @@ Turn your ideas into comic-style visuals with ease.
 ## 💻 Installation
 
 ```bash
-git clone https://github.com/yourusername/ai-comic-creator.git
+git clone https://github.com/zerotoriff/ai-comic-creator.git
 cd ai-comic-creator
 pip install -r requirements.txt
 python src/main.py
