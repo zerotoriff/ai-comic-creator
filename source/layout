@@ -1,0 +1,98 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import { createPageUrl } from "@/utils";
+import { Palette, BookOpen, Home, Library, Sparkles, BookImage, LayoutDashboard } from "lucide-react";
+
+export default function Layout({ children, currentPageName }) {
+  const navItems = [
+    { name: "Home", icon: Home, page: "Home" },
+    { name: "Dashboard", icon: LayoutDashboard, page: "Dashboard" },
+    { name: "Comics", icon: Palette, page: "CreateComic" },
+    { name: "Stories", icon: BookOpen, page: "CreateStory" },
+    { name: "Explore", icon: Sparkles, page: "Explore" },
+    { name: "Library", icon: Library, page: "Library" },
+    { name: "Styles", icon: BookImage, page: "StyleLibrary" },
+  ];
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-white">
+      <style>{`
+        :root {
+          --background: 222.2 84% 4.9%;
+          --foreground: 210 40% 98%;
+          --card: 222.2 84% 4.9%;
+          --card-foreground: 210 40% 98%;
+          --popover: 222.2 84% 4.9%;
+          --popover-foreground: 210 40% 98%;
+          --primary: 263.4 70% 50.4%;
+          --primary-foreground: 210 40% 98%;
+          --secondary: 217.2 32.6% 17.5%;
+          --secondary-foreground: 210 40% 98%;
+          --muted: 217.2 32.6% 17.5%;
+          --muted-foreground: 215 20.2% 65.1%;
+          --accent: 217.2 32.6% 17.5%;
+          --accent-foreground: 210 40% 98%;
+          --destructive: 0 62.8% 30.6%;
+          --destructive-foreground: 210 40% 98%;
+          --border: 217.2 32.6% 17.5%;
+          --input: 217.2 32.6% 17.5%;
+          --ring: 263.4 70% 50.4%;
+        }
+        body { background: #020617; }
+      `}</style>
+
+      {/* Top navigation */}
+      <nav className="sticky top-0 z-50 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/50">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+          <Link to={createPageUrl("Home")} className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-white" />
+            </div>
+            <span className="font-bold text-lg tracking-tight text-white">StoryForge</span>
+          </Link>
+
+          <div className="hidden sm:flex items-center gap-1">
+            {navItems.map((item) => {
+              const isActive = currentPageName === item.page ||
+                (item.page === "Home" && currentPageName === "Home");
+              return (
+                <Link
+                  key={item.name}
+                  to={createPageUrl(item.page)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    isActive
+                      ? "bg-slate-800 text-white"
+                      : "text-slate-500 hover:text-slate-300 hover:bg-slate-800/50"
+                  }`}
+                >
+                  <item.icon className="w-4 h-4" />
+                  {item.name}
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Mobile: minimal */}
+          <div className="sm:hidden flex items-center gap-2">
+            {navItems.map((item) => {
+              const isActive = currentPageName === item.page;
+              return (
+                <Link
+                  key={item.name}
+                  to={createPageUrl(item.page)}
+                  className={`p-2.5 rounded-lg transition-colors ${
+                    isActive ? "bg-slate-800 text-white" : "text-slate-500"
+                  }`}
+                >
+                  <item.icon className="w-5 h-5" />
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </nav>
+
+      <main>{children}</main>
+    </div>
+  );
+}
